@@ -1,16 +1,17 @@
 ﻿List<string> allowedSigns = ["rock", "paper", "scissors"];
-string GetCorrectSign()
+string GetCorrectSign(string playerName)
 {
+    Console.WriteLine($"{playerName}, choose your sign ({string.Join('/', allowedSigns)})");
     string firstSign = Console.ReadLine()!;
 
     //if (firstSign.Equals("rock", stringComaprison) && !firstSign.Equals("paper", stringComaprison) && !firstSign.Equals("scissors", stringComaprison))
     //while (!(firstSign.Equals(allowedSigns[0], stringComparison) || firstSign.Equals(allowedSigns[1], stringComparison) || firstSign.Equals(allowedSigns[2], stringComparison)))
     while (!allowedSigns.Contains(firstSign, StringComparer.OrdinalIgnoreCase))
     {
-    Console.WriteLine($"Player 1, choose correct sign ({string.Join('/', allowedSigns)})");
-    firstSign = Console.ReadLine()!;
+        Console.WriteLine($"{playerName}, choose correct sign ({string.Join('/', allowedSigns)})");
+        firstSign = Console.ReadLine()!;
     }
-    return "kotek";
+    return firstSign;
 }
 
 
@@ -19,7 +20,7 @@ const StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 //List<string> allowedSigns = ["rock", "paper", "scissors"];
 Console.WriteLine("Let's play Rock-Paper-Scissors!");
 
-Console.WriteLine($"Player 1, choose your sign ({string.Join('/', allowedSigns)})");
+//Console.WriteLine($"Player 1, choose your sign ({string.Join('/', allowedSigns)})");
 //Console.WriteLine($"Player 1, choose your sign ({string.Join("/", allowedSigns)})");
 //Console.WriteLine($"Player 1, choose your sign ({allowedSigns[0]}/{allowedSigns[1]}/{allowedSigns[2]})");
 //string firstSign = Console.ReadLine()!;
@@ -31,11 +32,8 @@ Console.WriteLine($"Player 1, choose your sign ({string.Join('/', allowedSigns)}
 //    Console.WriteLine($"Player 1, choose correct sign ({string.Join('/', allowedSigns)})");
 //    firstSign = Console.ReadLine()!;
 //}
-string firstSign = GetCorrectSign();
-
-
-Console.WriteLine($"Player 2, choose your sign ({string.Join('/', allowedSigns)})");
-string secondSign = Console.ReadLine()!;
+string firstSign = GetCorrectSign("Player 1");
+string secondSign = GetCorrectSign("Player 2");
 
 if (firstSign.Equals(secondSign, stringComparison))
 {
