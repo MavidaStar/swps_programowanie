@@ -1,5 +1,14 @@
 ﻿//lista znaków gry, pobierane w trakcie, liczenie znaków zaczyna się od 0, więc teraz mamy 0=rock, 1=paper, 2=scissors
-List<string> allowedSigns = ["rock", "paper", "scissors"];
+List<string> allowedSigns = ["rock", "paper", "scissors", "lizard", "spock"];
+//słownik, typ danych, worek na informacje; winningMap = mapa wygranych elemntów - co wygrywa z czym, co przegrywa z czym
+//new()nawias powtarza to co było wcześniej, tak samo jak po prostu same [], następnie lista elementów i z czym wygrywają/przegrywają
+Dictionary<string, List<string>> winningMap = [];
+winningMap["rock"] = ["scissors", "lizard"];
+winningMap["paper"] = ["rock", "spock"];
+winningMap["scissors"] = ["paper", "lizard"];
+winningMap["lizard"] = ["paper", "spock"];
+winningMap["spock"] = ["rock", "scissors"];
+
 string GetCorrectSign(string playerName)
 {
     Console.WriteLine($"{playerName}, choose your sign ({string.Join('/', allowedSigns)})");
@@ -48,23 +57,27 @@ while (true)
     //    Console.WriteLine($"Player 1, choose correct sign ({string.Join('/', allowedSigns)})");
     //    firstSign = Console.ReadLine()!;
     //}
-    string firstSign = GetCorrectSign("Player 1");
-    string secondSign = GetCorrectRandomSign("Player 2");
+    string firstSign = GetCorrectSign("Player 1"); //P1 (na tablicy)
+    string secondSign = GetCorrectSign("Player 2"); //P2 (na tablicy)
 
+    List<string> signsLosingWithFirstSign = winningMap[firstSign];
+
+    //po utworzeniu dictionary, nie jest już nam ten etap potrzebny
     // 1. Pobierz indeks znaku podanego przez osobę drugą (np. 0, 1, 2) - nazwę to secondSignIndex
-    int secondSignIndex = allowedSigns.IndexOf(secondSign);
+    //int secondSignIndex = allowedSigns.IndexOf(secondSign);
     // 2. Wylicz indeks znaku, który wygrywa z podanym przez osobę drugą - wzór - (secondSignIndex + 1) % rozmiarListy
-    int winningSignIndex = (secondSignIndex + 1) % allowedSigns.Count;
+    //int winningSignIndex = (secondSignIndex + 1) % allowedSigns.Count;
     // 3. Czy indeks znaku podanego przez pierwszą osobę to indeks wyliczony w punkcie 2.
-    int firstSignIndex = allowedSigns.IndexOf(firstSign);
+    //int firstSignIndex = allowedSigns.IndexOf(firstSign);
 
     if (firstSign.Equals(secondSign, stringComparison))
     {
         Console.WriteLine("It's a draw!");
     }
-    else if (firstSignIndex == winningSignIndex)
+    //else if (firstSignIndex == winningSignIndex)
+    else if (signsLosingWithFirstSign.Contains(secondSign, StringComparer.OrdinalIgnoreCase))
     {
-        Console.WriteLine("First player won!");
+        Console.WriteLine("First player won!");  
         //firstPlayerPoints = firstPlayerPoints + 1;
         //firstPlayerPoints++;
         firstPlayerPoints += 1;    
