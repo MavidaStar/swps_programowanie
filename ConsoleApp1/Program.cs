@@ -38,18 +38,35 @@ const StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 int firstPlayerPoints = 0;
 int secondPlayerPoints = 0;
 
+Console.WriteLine("Player 1, what's your name?");
+string firstPlayerName = Console.ReadLine()!;
+
+Console.WriteLine("Player 2, what's your name?");
+string secondPlayerName = Console.ReadLine()!;
+
 Console.WriteLine("How many wins?");
 string maxWinsText = Console.ReadLine()!;
 //int maxWins = int.Parse(maxWinsText);
 //int maxWins = Convert.ToInt32(maxWinsText);
+//int maxWins;
 //bool = zmienna która przechowuje prawdę lub fałsz, TryParse - udało się "z parsować" czy nie? prawda czy fałsz? => 2; 
 //bool parsingResult = int.TryParse(maxWinsText, out maxWins);
-bool parsingResult = int.TryParse(maxWinsText, out int maxWins);
+//bool parsingResult = int.TryParse(maxWinsText, out int maxWins); -> nie diała n aliczby ujemne, gra się kończy, bo każdy gracz ma więcej niż np. -200
+bool parsingResult = uint.TryParse(maxWinsText, out uint maxWins);
+
+//pętla w wypadku nie podania liczby, a tekstu rund do momentu podania liczby, która będzie >0, poniżej podanie jest przeciwieństwo, patrz !
+while (!parsingResult || maxWins <= 0)
+{
+    Console.WriteLine("How many wins?");
+    maxWinsText = Console.ReadLine()!;
+    parsingResult = uint.TryParse(maxWinsText, out maxWins);
+}
 
 //pętla do grania w nieskończoność - oryginalnie, teraz jest pętla gry dopóki jedenz graczy nie otrzyma 3 punktów
-while (true)
+//while (true)
+//pętla do wybranej ilości rund gry
+while (firstPlayerPoints < maxWins && secondPlayerPoints < maxWins)
 {
-
     //List<string> allowedSigns = ["rock", "paper", "scissors"];
     Console.WriteLine("Let's play Rock-Paper-Scissors!");
 
@@ -65,8 +82,8 @@ while (true)
     //    Console.WriteLine($"Player 1, choose correct sign ({string.Join('/', allowedSigns)})");
     //    firstSign = Console.ReadLine()!;
     //}
-    string firstSign = GetCorrectSign("Player 1"); //P1 (na tablicy)
-    string secondSign = GetCorrectSign("Player 2"); //P2 (na tablicy)
+    string firstSign = GetCorrectSign(firstPlayerName); //P1 (na tablicy)
+    string secondSign = GetCorrectSign(secondPlayerName); //P2 (na tablicy)
 
     List<string> signsLosingWithFirstSign = winningMap[firstSign];
 
@@ -85,7 +102,7 @@ while (true)
     //else if (firstSignIndex == winningSignIndex)
     else if (signsLosingWithFirstSign.Contains(secondSign, StringComparer.OrdinalIgnoreCase))
     {
-        Console.WriteLine("First player won!");  
+        Console.WriteLine($"{firstPlayerName} won!");  
         //firstPlayerPoints = firstPlayerPoints + 1;
         //firstPlayerPoints++;
         firstPlayerPoints += 1;    
@@ -100,18 +117,20 @@ while (true)
 
     else
     {
-        Console.WriteLine("Second player won!");
+        Console.WriteLine($"{secondPlayerName} won!");
         //secondPlayerPoints = secondPlayerPoints + 1; 
         //secondPlayerPoints++;
         secondPlayerPoints += 1;
     }
 
     //wyświetlanie punktacji dla obu graczy
-    Console.WriteLine($"First player: {firstPlayerPoints}");
-    Console.WriteLine($"Second player: {secondPlayerPoints}");
+    Console.WriteLine($"{firstPlayerName}: {firstPlayerPoints}");
+    Console.WriteLine($"{secondPlayerName}: {secondPlayerPoints}");
 
     //if(!(firstPlayerPoints < 3 && secondPlayerPoints < 3))
-    if (!(firstPlayerPoints >= 3 || secondPlayerPoints >= 3))
+    
+    //if (!(firstPlayerPoints >= 3 || secondPlayerPoints >= 3))
+    if (!(firstPlayerPoints >= maxWins || secondPlayerPoints >= maxWins))
     {
         break;
     }
