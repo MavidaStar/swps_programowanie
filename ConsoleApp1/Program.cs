@@ -1,7 +1,7 @@
-﻿//lista znaków gry, pobierane w trakcie, liczenie znaków zaczyna się od 0, więc teraz mamy 0=rock, 1=paper, 2=scissors
+﻿//lista znaków gry, pobierane w trakcie, liczenie znaków zaczyna się od 0, więc teraz mamy 0=rock, 1=paper, 2=scissors, 3=lizard, 4=spock
 List<string> allowedSigns = ["rock", "paper", "scissors", "lizard", "spock"];
 //słownik, typ danych, worek na informacje; winningMap = mapa wygranych elemntów - co wygrywa z czym, co przegrywa z czym
-//new()nawias powtarza to co było wcześniej, tak samo jak po prostu same [], następnie lista elementów i z czym wygrywają/przegrywają
+//new() nawias powtarza to co było wcześniej, tak samo jak po prostu same [], następnie lista elementów i z czym wygrywają/przegrywają
 Dictionary<string, List<string>> winningMap = [];
 winningMap["rock"] = ["scissors", "lizard"];
 winningMap["paper"] = ["rock", "spock"];
@@ -38,7 +38,15 @@ const StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 int firstPlayerPoints = 0;
 int secondPlayerPoints = 0;
 
-//pętla do grania w nieskończoność
+Console.WriteLine("How many wins?");
+string maxWinsText = Console.ReadLine()!;
+//int maxWins = int.Parse(maxWinsText);
+//int maxWins = Convert.ToInt32(maxWinsText);
+//bool = zmienna która przechowuje prawdę lub fałsz, TryParse - udało się "z parsować" czy nie? prawda czy fałsz? => 2; 
+//bool parsingResult = int.TryParse(maxWinsText, out maxWins);
+bool parsingResult = int.TryParse(maxWinsText, out int maxWins);
+
+//pętla do grania w nieskończoność - oryginalnie, teraz jest pętla gry dopóki jedenz graczy nie otrzyma 3 punktów
 while (true)
 {
 
